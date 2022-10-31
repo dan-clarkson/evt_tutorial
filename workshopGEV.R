@@ -5,6 +5,18 @@ arctic <- read.csv("N_seaice_extent_daily_v2.1.csv")
 
 # Packages ----------------------------------------------------------------
 
+packages = c("lubridate","ggplot2","ggfortify","extRemes")
+
+package.check <- lapply(
+  packages,
+  FUN = function(x) {
+    if (!require(x, character.only = TRUE)) {
+      install.packages(x, dependencies = TRUE)
+      library(x, character.only = TRUE)
+    }
+  }
+)
+
 library(lubridate)
 library(ggplot2)
 library(ggfortify)
@@ -13,8 +25,6 @@ library(extRemes)
 # Processing data ---------------------------------------------------------
 
 arctic$Date <- dmy(paste(arctic$Day,arctic$Month,arctic$Year,sep="-")) #converts dates into a nicer format
-
-dev.new();dev.new() #opens a graphics device in a seperate window
 
 ggplot(data=arctic)+geom_point(aes(x=Date,y=Extent)) #plots data over time
 

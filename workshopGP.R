@@ -4,8 +4,20 @@ summitA <- read.csv("summit_daily_max.csv")
 
 # Packages ----------------------------------------------------------------
 
+packages = c("lubridate","ggplot2","extRemes")
+
+package.check <- lapply(
+  packages,
+  FUN = function(x) {
+    if (!require(x, character.only = TRUE)) {
+      install.packages(x, dependencies = TRUE)
+      library(x, character.only = TRUE)
+    }
+  }
+)
+
 library("lubridate")
-library(ggplot2)
+library("ggplot2")
 library("extRemes")
 
 # Processing data ---------------------------------------------------------
@@ -31,8 +43,6 @@ summit[,1] <- as_date(summit[,1])
 names(summit) <- c("Date","Temperature")
 
 nrow(summit)
-
-dev.new();dev.new()
 
 plot(summit$Date,summit$Temperature,xlab="Date",ylab="Temperature")
 
