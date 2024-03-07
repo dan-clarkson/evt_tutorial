@@ -33,8 +33,8 @@ acf(arctic$Extent,lag.max=365) #plots autocorrelation function at different lags
 #Create a matrix with two columns: years and annual minima
 range(arctic$Year) #what years do we have in the data?
 arcticMin <- matrix(0,nrow=length(unique(arctic$Year)),ncol=2) #matrix for storing information
-arcticMin[,1] <- c(1978:2017) #years
-for(i in 1978:2017){
+arcticMin[,1] <- c(1978:2024) #years
+for(i in 1978:2024){
     arcticMin[i-1977,2] <- min(arctic$Extent[arctic$Year==i],na.rm=T) #minimum extent for each year extent
 }
 #Convert to data frame structure
@@ -75,7 +75,12 @@ max.rl[,1] <- -log(-log(1-1/max.rl[,1]))
 
 max.rl <- as.data.frame(max.rl)
 names(max.rl) <- c("ReturnPeriod","ReturnLevel","LowerCI","UpperCI")
-ggplot(data=max.rl)+geom_line(aes(x=ReturnPeriod,y=ReturnLevel))+geom_line(aes(x=ReturnPeriod,y=LowerCI))+geom_line(aes(x=ReturnPeriod,y=UpperCI))+labs(x="Return Period",y="Return level (degrees C)")+scale_x_continuous(breaks=log(c(5,10,25,50,100,250,500,1000)),labels=c("5","10","25","50","100","250","500","1000"))
+ggplot(data=max.rl)+
+  geom_line(aes(x=ReturnPeriod,y=ReturnLevel))+
+  geom_line(aes(x=ReturnPeriod,y=LowerCI))+
+  geom_line(aes(x=ReturnPeriod,y=UpperCI))+
+  labs(x="Return Period",y=expression(paste("Return level (millions ",km^{2},")")))+
+  scale_x_continuous(breaks=log(c(5,10,25,50,100,250,500,1000)),labels=c("5","10","25","50","100","250","500","1000"))
 #this plots both return level estimates, and their associated uncertainty
 
 # Fitting GEV with a covariates --------------------------------------------
@@ -108,4 +113,6 @@ rl.final[,3] <- as.factor(rl.final[,3])
 levels(rl.final[,3]) <- c("2yr","20yr","100yr")
 names(rl.final) <- c("Year","RL","RP")
 
-ggplot()+geom_line(data=rl.final,aes(x=Year,y=RL,color=RP))+geom_line(aes(x=Year,y=-Extent),data=arcticMin) #plotted trends in return levels, appear in good agreement with what the data suggests 
+ggplot()+
+  geom_line(data=rl.final,aes(x=Year,y=RL,color=RP))+
+  geom_line(aes(x=Year,y=-Extent),data=arcticMin) #plotted trends in return levels, appear in good agreement with what the data suggests 
