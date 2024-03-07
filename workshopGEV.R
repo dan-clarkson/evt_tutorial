@@ -1,7 +1,7 @@
 # Data --------------------------------------------------------------------
 
-arctic <- read.csv("N_seaice_extent_daily_v2.1.csv")
-#Obtained from https://nsidc.org/data/seaice_index/archives.html
+arctic <- read.csv("Sea_Ice_Index_Daily_Extent.csv")
+#Obtained from https://nsidc.org/arcticseaicenews/sea-ice-tools/
 
 # Packages ----------------------------------------------------------------
 
